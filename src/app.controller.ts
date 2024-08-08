@@ -15,6 +15,6 @@ export class AppController {
 
   @Get('/t')
   getHelloo(): string {
-    return envConfig.parsed.DB_HOST || 'tttt';
+    return envConfig.parsed.DB_HOST || process.env.DB_HOST || 'tttt';
   }
 }
