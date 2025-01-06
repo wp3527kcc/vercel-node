@@ -10,17 +10,17 @@ const envConfig = config();
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      ssl: Boolean(envConfig.parsed.DB_SSL || process.env.DB_SSL),
-      type: 'postgres',
-      host: envConfig.parsed.DB_HOST || process.env.DB_HOST,
-      port: Number(envConfig.parsed.DB_PORT || process.env.DB_PORT),
-      username: envConfig.parsed.DB_USER || process.env.DB_USER,
-      password: envConfig.parsed.DB_PASSWORD || process.env.DB_PASSWORD,
-      database: envConfig.parsed.DB_DB || process.env.DB_DB,
-      entities: [Userr],
-      synchronize: true,
-    }),
+    // TypeOrmModule.forRoot({
+    //   ssl: Boolean(envConfig.parsed.DB_SSL || process.env.DB_SSL),
+    //   type: 'postgres',
+    //   host: envConfig.parsed.DB_HOST || process.env.DB_HOST,
+    //   port: Number(envConfig.parsed.DB_PORT || process.env.DB_PORT),
+    //   username: envConfig.parsed.DB_USER || process.env.DB_USER,
+    //   password: envConfig.parsed.DB_PASSWORD || process.env.DB_PASSWORD,
+    //   database: envConfig.parsed.DB_DB || process.env.DB_DB,
+    //   entities: [Userr],
+    //   synchronize: true,
+    // }),
   ],
   controllers: [AppController],
   providers: [AppService],
