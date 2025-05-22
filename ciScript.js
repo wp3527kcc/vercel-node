@@ -34,8 +34,8 @@ async function logToFeiShu(
 }
 
 fetchReq('https://vercel-node-ruby-nine.vercel.app/users', JSON.stringify({
-    name: Mock.mock('@string(7, 10)'),
-    email: Mock.mock('@string(7, 10)') + '@gmail.com'
+    name: Math.random().toString(16).slice(2),
+    email: Math.random().toString(16).slice(2) + '@gmail.com'
 })).then(res => res.json()).then(result => {
     logToFeiShu(new Date() + ' ' + JSON.stringify(result));
     console.log(result)
