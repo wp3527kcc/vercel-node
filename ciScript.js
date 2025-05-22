@@ -1,4 +1,3 @@
-var Mock = require('mockjs')
 function fetchReq(url, body, method = 'POST') {
     return fetch(url, {
         headers: {
