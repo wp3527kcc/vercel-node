@@ -2,9 +2,9 @@ name: Run JavaScript Script
 
 on:
   push:
-    branches: main
+    branches: master
   pull_request:
-    branches: main
+    branches: master
   schedule:
     - cron: '30 3 * * *'  # UTC 3:30，北京时间 11:30
     - cron: '0 7 * * *'   # UTC 7:00，北京时间 15:00
