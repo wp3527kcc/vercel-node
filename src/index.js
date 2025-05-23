@@ -1,11 +1,13 @@
 const express = require('express');
 const { Pool } = require('pg');
+const cors = require('cors');
 const { config } = require('dotenv');
 const bodyParser = require('body-parser');
 
 const app = express();
 // 配置解析 JSON 格式的请求体
 app.use(bodyParser.json());
+app.use(cors())
 const port = process.env.PORT || 3000;
 
 config();
@@ -22,6 +24,9 @@ const pool = new Pool({
   },
 });
 
+app.get('/', (req, res) => {
+  res.json({ value: 333 })
+})
 // 获取所有用户
 app.get('/users', async (req, res) => {
   try {
