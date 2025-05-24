@@ -5,13 +5,11 @@ const multer = require('multer');
 const { config } = require('dotenv');
 const bodyParser = require('body-parser');
 const mime = require('mime-types');
-const path = require('path')
 
 const app = express();
 // 配置解析 JSON 格式的请求体
 app.use(bodyParser.json());
 app.use(cors())
-app.use(express.static(path.join(process.cwd(), '../front/dist')));
 const port = process.env.PORT || 3000;
 const upload = multer({
   storage: multer.memoryStorage(), // 文件存储在内存中
@@ -90,8 +88,8 @@ app.delete('/users/:id', async (req, res) => {
   }
 });
 
-app.get('/file/:filepath', async (req, res) => {
-  const { filepath: key } = req.params
+app.get('/file/*', async (req, res) => {
+  const key = req.originalUrl.slice(6)
   const ext = key.split('.').pop();
   const mimeType = mime.lookup(ext)
   console.time('getFile')
@@ -114,7 +112,6 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
     res.send({
       message: '文件上传成功',
-      // fileUrl: `https://${params.Bucket}.s3.amazonaws.com/${fileName}`, // S3 文件 URL
     });
   } catch (error) {
     console.error('上传失败:', error);

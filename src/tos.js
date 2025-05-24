@@ -33,6 +33,7 @@ function handleError(error) {
 
 async function getFile(key) {
     try {
+        console.log('file key', key)
         const {
             data: { content },
         } = await client.getObjectV2({
@@ -47,7 +48,7 @@ async function getFile(key) {
         }
         return allContent
     } catch (error) {
-        console.log('---===', error)
+        // console.log('---===', error)
         return '404 not found ' + `<h2>${key}</h2>`
         // handleError(error);
     }
