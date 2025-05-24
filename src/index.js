@@ -1,17 +1,24 @@
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
+const { getFile, uploadFile, getFileList } = require('./tos')
+const multer = require('multer');
 const { config } = require('dotenv');
 const bodyParser = require('body-parser');
+const mime = require('mime-types');
 
 const app = express();
 // 配置解析 JSON 格式的请求体
 app.use(bodyParser.json());
 app.use(cors())
+app.use(express.static('public'));
+app.use(express.static('front/dist'));
 const port = process.env.PORT || 3000;
+const upload = multer({
+  storage: multer.memoryStorage(), // 文件存储在内存中
+});
 
 config();
-
 // 连接数据库
 const pool = new Pool({
   user: process.env.POSTGRES_USER,
@@ -24,8 +31,9 @@ const pool = new Pool({
   },
 });
 
-app.get('/', (req, res) => {
-  res.json({ value: 333 })
+app.get('/upload', async (req, res) => {
+  const fileList = await getFileList()
+  res.json(fileList)
 })
 // 获取所有用户
 app.get('/users', async (req, res) => {
@@ -81,6 +89,38 @@ app.delete('/users/:id', async (req, res) => {
     res.status(500).json({ message: '服务器错误' });
   }
 });
+
+app.get('/file/:filepath', async (req, res) => {
+  const { filepath: key } = req.params
+  const ext = key.split('.').pop();
+  const mimeType = mime.lookup(ext)
+  console.time('getFile')
+  const allContent = await getFile(key)
+  console.timeEnd('getFile')
+  res.setHeader('Content-Type', mimeType);
+  res.send(allContent)
+})
+
+app.post('/upload', upload.single('file'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).send('没有文件上传');
+  }
+  try {
+    // 从内存中获取文件 Buffer
+    const fileBuffer = req.file.buffer;
+    const fileName = req.file.originalname;
+    const tosResult = await uploadFile(fileName, fileBuffer)
+    console.log(tosResult)
+
+    res.send({
+      message: '文件上传成功',
+      // fileUrl: `https://${params.Bucket}.s3.amazonaws.com/${fileName}`, // S3 文件 URL
+    });
+  } catch (error) {
+    console.error('上传失败:', error);
+    res.status(500).send('文件上传失败');
+  }
+})
 
 app.listen(port, () => {
   console.log(`服务器正在监听 ${port} 端口`);
