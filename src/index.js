@@ -1,24 +1,24 @@
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
-const { getFile, uploadFile, getFileList } = require('./tos')
 const multer = require('multer');
 const { config } = require('dotenv');
 const bodyParser = require('body-parser');
 const mime = require('mime-types');
+const path = require('path')
 
 const app = express();
 // 配置解析 JSON 格式的请求体
 app.use(bodyParser.json());
 app.use(cors())
-app.use(express.static('public'));
-app.use(express.static('front/dist'));
+app.use(express.static(path.join(process.cwd(), '../front/dist')));
 const port = process.env.PORT || 3000;
 const upload = multer({
   storage: multer.memoryStorage(), // 文件存储在内存中
 });
 
 config();
+const { getFile, uploadFile, getFileList } = require('./tos')
 // 连接数据库
 const pool = new Pool({
   user: process.env.POSTGRES_USER,
