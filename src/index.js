@@ -92,7 +92,7 @@ app.delete(prefix + '/users/:id', async (req, res) => {
 });
 
 app.get(prefix + '/file/*', async (req, res) => {
-  const key = req.originalUrl.slice(6)
+  const key = req.originalUrl.slice(prefix.length + 6)
   const ext = key.split('.').pop();
   const mimeType = mime.lookup(ext)
   console.time('getFile')
