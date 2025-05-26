@@ -14,6 +14,7 @@ const port = process.env.PORT || 3000;
 const upload = multer({
   storage: multer.memoryStorage(), // 文件存储在内存中
 });
+const prefix = '/api'
 
 config();
 const { getFile, uploadFile, getFileList } = require('./tos')
@@ -28,15 +29,15 @@ const pool = new Pool({
     rejectUnauthorized: false, // Optional: For development environments only
   },
 });
-app.get('/', (req, res) =>{
+app.get(prefix + '/', (req, res) => {
   res.send(`<div>hello world</div>`)
 })
-app.get('/upload', async (req, res) => {
+app.get(prefix + '/upload', async (req, res) => {
   const fileList = await getFileList()
   res.json(fileList)
 })
 // 获取所有用户
-app.get('/users', async (req, res) => {
+app.get(prefix + '/users', async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT * FROM users');
     res.json(rows);
@@ -47,7 +48,7 @@ app.get('/users', async (req, res) => {
 });
 
 // 创建用户
-app.post('/users', async (req, res) => {
+app.post(prefix + '/users', async (req, res) => {
   console.log(req.body);
   const { name, email } = req.body;
   try {
@@ -60,7 +61,7 @@ app.post('/users', async (req, res) => {
 });
 
 // 更新用户
-app.put('/users/:id', async (req, res) => {
+app.put(prefix + '/users/:id', async (req, res) => {
   const { id } = req.params;
   const { name, email } = req.body;
   try {
@@ -76,7 +77,7 @@ app.put('/users/:id', async (req, res) => {
 });
 
 // 删除用户
-app.delete('/users/:id', async (req, res) => {
+app.delete(prefix + '/users/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const { rows } = await pool.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
@@ -90,18 +91,18 @@ app.delete('/users/:id', async (req, res) => {
   }
 });
 
-app.get('/file/*', async (req, res) => {
+app.get(prefix + '/file/*', async (req, res) => {
   const key = req.originalUrl.slice(6)
   const ext = key.split('.').pop();
   const mimeType = mime.lookup(ext)
   console.time('getFile')
   const allContent = await getFile(key)
   console.timeEnd('getFile')
-  res.setHeader('Content-Type', mimeType+'; charset=utf-8');
+  res.setHeader('Content-Type', mimeType + '; charset=utf-8');
   res.send(allContent)
 })
 
-app.post('/upload', upload.single('file'), async (req, res) => {
+app.post(prefix + '/upload', upload.single('file'), async (req, res) => {
   if (!req.file) {
     return res.status(400).send('没有文件上传');
   }
