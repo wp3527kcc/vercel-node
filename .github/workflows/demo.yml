@@ -17,6 +17,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Run Node.js script
+        run: node -e "console.log(process.env.TOS_ACCESS_KEY_ID)" # 直接测试
+        
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
