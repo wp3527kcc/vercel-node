@@ -21,6 +21,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18'
+      - name: Use secret in script
+        env:
+          TOS_ACCESS_KEY_ID: ${{ secrets.TOS_ACCESS_KEY_ID }}
+          TOS_ACCESS_KEY_SECRET: ${{ secrets.TOS_ACCESS_KEY_SECRET }}
+        run: echo "Secret key has load"
 
       - name: Install dependencies
         run: npm install  # 如果有依赖需要安装

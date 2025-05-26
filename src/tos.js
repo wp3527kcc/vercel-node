@@ -63,11 +63,11 @@ async function getFileList() {
         handleError(error);
     }
 }
-async function uploadFile(filename, body) {
+async function uploadFile(filename, body, raw = false) {
     const randomPrefix = Math.random().toString(16).slice(2, 6) + '_';
     const result = await client.putObject({
         body,
-        key: randomPrefix + filename,
+        key: (raw ? '' : randomPrefix) + filename,
         bucket: bucketName,
     });
     return result

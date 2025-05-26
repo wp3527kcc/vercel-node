@@ -1,4 +1,3 @@
-const Mock = require('mockjs');
 function fetchReq(url, body, method = 'POST') {
     return fetch(url, {
         headers: {
@@ -33,18 +32,9 @@ async function logToFeiShu(
     return data
 }
 
-// fetchReq('https://vercel-node-ruby-nine.vercel.app/api/users', JSON.stringify({
-//     name: Mock.mock('@string(7, 10)'),
-//     email: Mock.mock('@string(7, 10)') + '@gmail.com'
-//     // name: Math.random().toString(16).slice(2),
-//     // email: Math.random().toString(16).slice(2) + '@gmail.com'
-// })).then(res => res.json()).then(result => {
-//     logToFeiShu(new Date() + ' ' + JSON.stringify(result));
-//     console.log(result)
-// })
-
 // build.js
 const { exec } = require('child_process');
+const { uploadFileToTos } = require('./upload')
 
 // 执行 vite build 命令
 // exec('echo 123', (error, stdout, stderr) => {
@@ -61,4 +51,5 @@ exec('cd front && npm run build', (error, stdout, stderr) => {
     }
     console.log(`stdout: ${stdout}`);
     logToFeiShu(new Date() + ' Vite 打包完成！');
+    uploadFileToTos()
 });

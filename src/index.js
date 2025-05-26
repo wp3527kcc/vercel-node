@@ -2,7 +2,6 @@ const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
 const multer = require('multer');
-const { config } = require('dotenv');
 const bodyParser = require('body-parser');
 const mime = require('mime-types');
 
@@ -16,6 +15,7 @@ const upload = multer({
 });
 const prefix = '/api'
 
+const { config } = require('dotenv');
 config();
 const { getFile, uploadFile, getFileList } = require('./tos')
 // 连接数据库
