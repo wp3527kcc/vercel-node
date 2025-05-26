@@ -28,7 +28,9 @@ const pool = new Pool({
     rejectUnauthorized: false, // Optional: For development environments only
   },
 });
-
+app.get('/', (req, res) =>{
+  res.send(`<div>hello world</div>`)
+})
 app.get('/upload', async (req, res) => {
   const fileList = await getFileList()
   res.json(fileList)
@@ -95,7 +97,7 @@ app.get('/file/*', async (req, res) => {
   console.time('getFile')
   const allContent = await getFile(key)
   console.timeEnd('getFile')
-  res.setHeader('Content-Type', mimeType);
+  res.setHeader('Content-Type', mimeType+'; charset=utf-8');
   res.send(allContent)
 })
 

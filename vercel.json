@@ -1,27 +1,17 @@
+
 {
   "version": 2,
   "builds": [
     {
-      "src": "front/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    },
-    {
-      "src": "src/index.js",
+      "src": "src/main.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "src/index.js",
-      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"]
-    },
-    {
       "src": "/(.*)",
-      "dest": "/front/dist/index.html"
+      "dest": "src/main.ts",
+      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"]
     }
   ]
 }

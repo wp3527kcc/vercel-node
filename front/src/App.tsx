@@ -6,7 +6,7 @@ import './App.css';
 function App() {
   const props: UploadProps = {
     name: 'file',
-    action: '/api/upload',
+    action: '/upload',
     headers: {
       // authorization: 'authorization-text',
     },
@@ -27,7 +27,7 @@ function App() {
     refreshList();
   }, []);
   function refreshList() {
-    fetch('/api/upload')
+    fetch('/upload')
       .then((res) => res.json())
       .then((value) => seList(value));
   }
