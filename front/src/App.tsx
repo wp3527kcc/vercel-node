@@ -27,7 +27,7 @@ function App() {
     refreshList();
   }, []);
   function refreshList() {
-    fetch('/upload')
+    fetch('/api/upload')
       .then((res) => res.json())
       .then((value) => seList(value));
   }
@@ -39,7 +39,7 @@ function App() {
       <ul>
         {list.map((each) => (
           <li>
-            <a href="/api/file/${each.Key}">{each.Key}</a>
+            <a href={`/api/file/${each.Key}`}>{each.Key}</a>
           </li>
         ))}
       </ul>
