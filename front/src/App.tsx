@@ -6,7 +6,7 @@ import './App.css';
 function App() {
   const props: UploadProps = {
     name: 'file',
-    action: '/upload',
+    action: '/api/upload',
     headers: {
       // authorization: 'authorization-text',
     },
@@ -39,7 +39,7 @@ function App() {
       <ul>
         {list.map((each) => (
           <li>
-            <a href="/file/${each.Key}">{each.Key}</a>
+            <a href="/api/file/${each.Key}">{each.Key}</a>
           </li>
         ))}
       </ul>
