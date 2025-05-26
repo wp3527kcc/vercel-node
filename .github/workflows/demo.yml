@@ -17,9 +17,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Run Node.js script
-        run: node -e "console.log(process.env.TOS_ACCESS_KEY_ID)" # 直接测试
-        
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
@@ -29,6 +26,9 @@ jobs:
           TOS_ACCESS_KEY_ID: ${{ secrets.TOS_ACCESS_KEY_ID }}
           TOS_ACCESS_KEY_SECRET: ${{ secrets.TOS_ACCESS_KEY_SECRET }}
         run: echo "Secret key has load"
+        
+      - name: Run Node.js script
+        run: node -e "console.log(process.env.TOS_ACCESS_KEY_ID)" # 直接测试
 
       - name: Install dependencies
         run: npm install  # 如果有依赖需要安装
