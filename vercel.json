@@ -1,7 +1,10 @@
-
 {
   "version": 2,
   "builds": [
+    {
+      "src": "front/dist/**",
+      "use": "@vercel/static"
+    },
     {
       "src": "src/index.js",
       "use": "@vercel/node"
@@ -12,6 +15,10 @@
       "src": "/api/(.*)",
       "dest": "src/index.js",
       "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    },
+    {
+      "src": "/(.*)", 
+      "dest": "/front/dist/index.html" 
     }
   ]
 }
