@@ -21,20 +21,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18'
-      - name: Use secret in script
-        env:
-          TOS_ACCESS_KEY_ID: ${{ secrets.TOS_ACCESS_KEY_ID }}
-          TOS_ACCESS_KEY_SECRET: ${{ secrets.TOS_ACCESS_KEY_SECRET }}
-        run: echo "TOS_ACCESS_KEY_SECRET is ${TOS_ACCESS_KEY_SECRET}"
-        
-      - name: Run Node.js script
-        env:
-          TOS_ACCESS_KEY_ID: ${{ secrets.TOS_ACCESS_KEY_ID }}
-          TOS_ACCESS_KEY_SECRET: ${{ secrets.TOS_ACCESS_KEY_SECRET }}
-        run: node -e "console.log(process.env.TOS_ACCESS_KEY_ID)" # 直接测试
-
       - name: Install dependencies
         run: npm install  # 如果有依赖需要安装
-
       - name: Run JavaScript script
+        env:
+          TOS_ACCESS_KEY_ID: ${{ secrets.TOS_ACCESS_KEY_ID }}
+          TOS_ACCESS_KEY_SECRET: ${{ secrets.TOS_ACCESS_KEY_SECRET }}
         run: node ciScript.js
