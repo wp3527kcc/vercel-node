@@ -5,9 +5,10 @@ on:
     branches: master
   pull_request:
     branches: master
-  schedule:
-    - cron: '0 3 * * *'  # UTC 3:00，北京时间 11:00
-    - cron: '30 6 * * *'   # UTC 6:30，北京时间 15:30
+  # schedule:
+  #   - cron: '0 3 * * *'  # UTC 3:00，北京时间 11:00
+  #   - cron: '30 6 * * *'   # UTC 6:30，北京时间 15:30
+  workflow_dispatch:      # 支持手动触发
 
 jobs:
   run-script:
@@ -16,13 +17,31 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8  # 指定 pnpm 版本（根据你的项目需求调整）
 
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '18'
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+            ${{ env.STORE_PATH }}  # pnpm 的全局存储目录
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
       - name: Install dependencies
-        run: npm install  # 如果有依赖需要安装
+        run: pnpm install  # 使用 pnpm 安装依赖
       - name: Run JavaScript script
         env:
           TOS_ACCESS_KEY_ID: ${{ secrets.TOS_ACCESS_KEY_ID }}
