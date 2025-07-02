@@ -45,4 +45,6 @@ jobs:
         env:
           TOS_ACCESS_KEY_ID: ${{ secrets.TOS_ACCESS_KEY_ID }}
           TOS_ACCESS_KEY_SECRET: ${{ secrets.TOS_ACCESS_KEY_SECRET }}
+          TUCHONG_NONCE: ${{ secrets.TUCHONG_NONCE }}
+          TUCHONG_COOKIE: ${{ secrets.TUCHONG_COOKIE }}
         run: node zan.js
