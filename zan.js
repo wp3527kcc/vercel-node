@@ -2,6 +2,15 @@ const headers = {
     cookie: process.env.UCHONG_COOKIE,
     "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
 };
+function fetchReq(url, body, method = 'POST') {
+    return fetch(url, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        method,
+        body,
+    })
+};
 async function logToFeiShu(
     content,
     webhookUrl = "https://open.feishu.cn/open-apis/bot/v2/hook/ad15802e-b359-451e-931e-78af5fc8c68d",
