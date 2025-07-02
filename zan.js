@@ -1,5 +1,5 @@
 const headers = {
-    cookie: process.env.UCHONG_COOKIE,
+    cookie: process.env.TUCHONG_COOKIE,
     "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
 };
 function fetchReq(url, body, method = 'POST') {
