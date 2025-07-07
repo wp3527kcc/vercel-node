@@ -1,5 +1,3 @@
-// 导入 SDK, 当 TOS Node.JS SDK 版本小于 2.5.2 请把下方 TosClient 改成 TOS 导入
-// import { TosClient } from '@volcengine/tos-sdk';
 const fs = require('fs')
 const path = require('path')
 const { config } = require('dotenv');
@@ -15,19 +13,22 @@ function traverseDirSync(dirPath) {
         if (stat.isDirectory()) {
             traverseDirSync(fullPath) // 递归遍历子目录
         } else {
+            if(['index.html', 'vite.svg'].some(each => files.includes(each))) {
+                return;
+            }
             files.push(fullPath)
         }
     })
 }
 function uploadFileToTos() {
-    const vercelPath = 'front/dist/'
+    const vercelPath = path.join(__dirname, './front/dist/')
     traverseDirSync(vercelPath)
-    console.log(files)
+    console.log(files, vercelPath)
     files.forEach((each) => {
         const rr = fs.readFileSync(each)
-        uploadFile('github/' + each.replace(vercelPath, ''), rr, true)
+        uploadFile(each.replace(vercelPath, ''), rr, 'uploadProject/', true)
     })
-
 }
+uploadFileToTos()
 
 exports.uploadFileToTos = uploadFileToTos

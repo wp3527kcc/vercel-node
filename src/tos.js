@@ -3,9 +3,9 @@
 const { TosClient, TosClientError, TosServerError } = require('@volcengine/tos-sdk')
 const accessKeyId = process.env.TOS_ACCESS_KEY_ID
 const accessKeySecret = process.env.TOS_ACCESS_KEY_SECRET
-const bucketName = 'kokobucket1';
-const region = "cn-guangzhou" // 填写 Bucket 所在地域。以华北2（北京)为例，则 "Provide your region" 填写为 cn-beijing。
-const endpoint = "tos-cn-guangzhou.volces.com" // 填写域名地址
+const bucketName = 'tc-test-crm';
+const region = "cn-beijing" // 填写 Bucket 所在地域。以华北2（北京)为例，则 "Provide your region" 填写为 cn-beijing。
+const endpoint = "tos-cn-beijing.volces.com" // 填写域名地址
 
 
 // 创建客户端
@@ -63,14 +63,15 @@ async function getFileList() {
         handleError(error);
     }
 }
-async function uploadFile(filename, body, raw = false) {
+async function uploadFile(filename, body, folder = '', raw = false) {
     const randomPrefix = Math.random().toString(16).slice(2, 6) + '_';
-    const result = await client.putObject({
+    const key = folder + (raw ? '' : randomPrefix) + filename
+    await client.putObject({
         body,
-        key: (raw ? '' : randomPrefix) + filename,
+        key,
         bucket: bucketName,
     });
-    return result
+    return key
 }
 // getFileList().then(console.log)
 exports.getFile = getFile
