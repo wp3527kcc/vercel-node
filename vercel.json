@@ -22,7 +22,7 @@
   ],
   "functions": {
     "src/index.js": {
-      "includeFiles": ["front/dist/index.html"]
+      "includeFiles": "front/dist/index.html"
     }
   }
 }
