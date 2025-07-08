@@ -50,7 +50,7 @@ function main() {
             })
         })
         .catch(err => {
-            logToFeiShu('出错了' + err)
+            logToFeiShu('出错了123' + err)
         });
 }
 
